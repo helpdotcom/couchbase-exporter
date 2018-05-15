@@ -11,6 +11,12 @@ $ npm i
 $ node index.js
 ```
 
+To run in a docker container:
+
+```bash
+$ docker run -d --name couchbase-exporter --env COUCHBASE_URL="<couchbase url>" --env COUCHBASE_USER="<couchbase user>" --env COUCHBASE_PASS="<couchbase pass>" evanlucas/couchbase-exporter:1.0.0
+```
+
 This is currently only tested with couchbase 5.x.
 
 You will need to set some environment variables in order for this to work properly.

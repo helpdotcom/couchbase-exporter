@@ -45,6 +45,7 @@ The following log levels are valid and are ordered with decreasing verbosity:
 3. Add ability to filter out stats by name
 4. Add bin script
 5. Add tests
+6. Add grafana dashboards
 
 ## Author
 

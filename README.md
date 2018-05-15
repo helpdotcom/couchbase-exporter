@@ -35,6 +35,7 @@ The following env vars are available:
 | `couchbase-pass` | `string` | `password` | no | `COUCHBASE_PASS` |
 | `fetch-delay` | `number` | `10000` | no | `FETCH_DELAY` |
 | `loglevel` | `string` | `info` | no | `LOGLEVEL` |
+| `ignore-buckets` | `string` | `^$` | no | `IGNORE_BUCKETS` |
 
 The following log levels are valid and are ordered with decreasing verbosity:
 
@@ -45,6 +46,9 @@ The following log levels are valid and are ordered with decreasing verbosity:
 * `warn`
 * `error`
 * `silent`
+
+The value set for the `IGNORE_BUCKETS` environment variable will be
+used to create a regular expression.
 
 ***
 

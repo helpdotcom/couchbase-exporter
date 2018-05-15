@@ -1,0 +1,55 @@
+# couchbase-exporter
+
+A prometheus exporter for couchbase
+
+## Usage
+
+```bash
+$ git clone git://github.com/helpdotcom/couchbase-exporter
+$ cd couchbase-exporter
+$ npm i
+$ node index.js
+```
+
+This is currently only tested with couchbase 5.x.
+
+You will need to set some environment variables in order for this to work properly.
+
+The following env vars are available:
+
+| Name | Type | Default | Required | Env Var |
+| ---- | ---- | ------- | -------- | ------- |
+| `port` | `number` | `7040` | no | `PORT` |
+| `couchbase-url` | `string` | `http://localhost:8091` | no | `COUCHBASE_URL` |
+| `couchbase-user` | `string` | `username` | no | `COUCHBASE_USER` |
+| `couchbase-pass` | `string` | `password` | no | `COUCHBASE_PASS` |
+| `fetch-delay` | `number` | `10000` | no | `FETCH_DELAY` |
+| `loglevel` | `string` | `info` | no | `LOGLEVEL` |
+
+The following log levels are valid and are ordered with decreasing verbosity:
+
+* `silly`
+* `verbose`
+* `info`
+* `http`
+* `warn`
+* `error`
+* `silent`
+
+***
+
+## TODO
+
+1. Make this npm installable
+2. Add ability to filter out buckets by name
+3. Add ability to filter out stats by name
+4. Add bin script
+5. Add tests
+
+## Author
+
+Evan Lucas
+
+## License
+
+MIT (See `LICENSE` for more info)

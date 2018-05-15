@@ -62,8 +62,14 @@ server.on('error', (err) => {
   log.error(err, {err})
 })
 
-process.on('SIGTERM', () => {
+process.once('SIGTERM', () => {
   log.warn('signal', 'SIGTERM')
+  server.close()
+  collector.stop()
+})
+
+process.once('SIGINT', () => {
+  log.warn('signal', 'SIGINT')
   server.close()
   collector.stop()
 })

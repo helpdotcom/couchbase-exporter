@@ -2,7 +2,7 @@
 
 const http = require('http')
 const config = require('./lib/config')
-const {metrics, CONTENT_TYPE} = require('./lib/prom')
+const {CONTENT_TYPE, createRegistry} = require('./lib/prom')
 const {NAME, VERSION} = require('./lib/constants')
 const collector = require('./lib/collector')
 const log = require('./lib/log').child('server')
@@ -36,13 +36,14 @@ function handleHealthCheck(req, res) {
 }
 
 async function handleMetrics(req, res) {
+  const registry = createRegistry()
   try {
-    await collector.collect()
+    await collector.collect(registry)
     res.writeHead(200, {
       'content-type': CONTENT_TYPE
     })
 
-    res.end(metrics())
+    res.end(registry.metrics())
   } catch (err) {
     log.error(err, {
       err
@@ -50,6 +51,8 @@ async function handleMetrics(req, res) {
     })
     res.writeHead(500)
     res.end('Unable to fetch metrics')
+  } finally {
+    registry.clear()
   }
 }
 

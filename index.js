@@ -4,6 +4,7 @@ const http = require('http')
 const config = require('./lib/config')
 const {metrics, CONTENT_TYPE} = require('./lib/prom')
 const {NAME, VERSION} = require('./lib/constants')
+const collector = require('./lib/collector')
 const log = require('./lib/log').child('server')
 
 const server = http.createServer((req, res) => {
@@ -34,16 +35,23 @@ function handleHealthCheck(req, res) {
   }))
 }
 
-function handleMetrics(req, res) {
-  res.writeHead(200, {
-    'content-type': CONTENT_TYPE
-  })
+async function handleMetrics(req, res) {
+  try {
+    await collector.collect()
+    res.writeHead(200, {
+      'content-type': CONTENT_TYPE
+    })
 
-  res.end(metrics())
+    res.end(metrics())
+  } catch (err) {
+    log.error(err, {
+      err
+    , message: 'failed to collect metrics'
+    })
+    res.writeHead(500)
+    res.end('Unable to fetch metrics')
+  }
 }
-
-const collector = require('./lib/collector')
-collector.start()
 
 server.listen(config.get('port'), () => {
   log.info('listen', config.get('port'))
@@ -65,11 +73,9 @@ server.on('error', (err) => {
 process.once('SIGTERM', () => {
   log.warn('signal', 'SIGTERM')
   server.close()
-  collector.stop()
 })
 
 process.once('SIGINT', () => {
   log.warn('signal', 'SIGINT')
   server.close()
-  collector.stop()
 })

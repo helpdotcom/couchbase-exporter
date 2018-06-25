@@ -1,6 +1,6 @@
 {
   "name": "couchbase-exporter",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Couchbase prometheus exporter",
   "main": "index.js",
   "scripts": {
